@@ -1,11 +1,12 @@
 const { v4: uuidv4 } = require('uuid');
 const db = require("../models");
 const CarritoDetalle = db.carritodetalle;
+// const Carrito = db.carrito;
 const Op = db.Sequelize.Op;
 
 create = (req, res) => {
     // Validate request
-    if (!req.body.libroUuid || !req.body.carritoUuid) {
+    if (!req.body.libroId || !req.body.carritoId) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
@@ -15,9 +16,9 @@ create = (req, res) => {
     const carritodetalle = {
         id: uuidv4(),
         fechaCreacion: req.body.fechaCreacion,
-        libroUuid: req.body.libroUuid,
+        libroId: req.body.libroId,
         estado: req.body.estado,
-        carritoUuid: req.body.carritoUuid
+        carritoId: req.body.carritoId
     };
 
     CarritoDetalle.create(carritodetalle)
@@ -32,7 +33,10 @@ create = (req, res) => {
         });
 };
 
-findAll = (req, res) => {
+findAll = async (req, res) => {
+    // const carritoDetalle = await CarritoDetalle.findAll({ include: Carrito });
+    // console.log(JSON.stringify(carritoDetalle, null, 2));
+
     const fechaCreacion = req.query.fechaCreacion;
     var condition = fechaCreacion ? { fechaCreacion: fechaCreacion } : null;
 
@@ -139,7 +143,6 @@ findAllActivo = (req, res) => {
             });
         });
 };
-
 
 module.exports = {
     create,

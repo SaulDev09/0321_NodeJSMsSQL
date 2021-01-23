@@ -1,6 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const db = require("../models");
 const Carrito = db.carrito;
+const CarritoDetalle = db.carritodetalle;
 const Op = db.Sequelize.Op;
 
 create = (req, res) => {
@@ -34,7 +35,10 @@ findAll = (req, res) => {
     const fechaCreacion = req.query.fechaCreacion;
     var condition = fechaCreacion ? { fechaCreacion: fechaCreacion } : null;
 
-    Carrito.findAll({ where: condition })
+    Carrito.findAll({
+        include: [{ model: CarritoDetalle }],
+        where: condition
+    })
         .then(data => {
             res.status(200).send(data);
         })

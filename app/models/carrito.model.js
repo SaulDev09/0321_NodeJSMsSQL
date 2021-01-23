@@ -7,7 +7,7 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.UUID
     },
     fechaCreacion: {
-        type: Sequelize.DATE
+      type: Sequelize.DATE
     },
     estado: {
       type: Sequelize.BOOLEAN

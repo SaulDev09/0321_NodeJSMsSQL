@@ -7,15 +7,15 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.UUID
     },
     fechaCreacion: {
-        type: Sequelize.DATE
+      type: Sequelize.DATE
     },
-    libroUuid: {
+    libroId: {
       type: Sequelize.UUID
     },
     estado: {
-        type: Sequelize.BOOLEAN
+      type: Sequelize.BOOLEAN
     },
-    carritoUuid: {
+    carritoId: {
       type: Sequelize.UUID
     }
   });
