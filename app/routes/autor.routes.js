@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { create, findAll, findOne, update, eliminar, deleteAll, findAllPublished } = require("../controllers/tutorial.controller.js");
+const { create, findAll, findOne, update, eliminar, deleteAll, findAllActivo } = require("../controllers/autor.controller.js");
 const router = Router();
 
 router.get("/", findAll);
@@ -8,7 +8,7 @@ router.post("/", create);
 router.put("/:id", update);
 router.delete("/:id", eliminar);
 router.delete("/", deleteAll);
-router.get("/published", findAllPublished);
+router.get("/estado/:estado", findAllActivo);
+// router.get("/published/", findAllActivo); => X conflicto con /:id - ambos son string
 
-// app.use('/api/tutorials', router);
 module.exports = router;

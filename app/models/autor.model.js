@@ -1,22 +1,25 @@
 const { v4: uuidv4 } = require('uuid');
 
 module.exports = (sequelize, Sequelize) => {
-  const Tutorial = sequelize.define("tutorial", {
+  const Autor = sequelize.define("autor", {
     id: {
       primaryKey: true,
       type: Sequelize.UUID
     },
-    title: {
+    nombre: {
       type: Sequelize.STRING
     },
-    description: {
+    apellido: {
       type: Sequelize.STRING
     },
-    published: {
+    fechaNacimiento: {
+        type: Sequelize.DATEONLY
+    },
+    estado: {
       type: Sequelize.BOOLEAN
     }
   });
 
-  Tutorial.beforeCreate(tutorial => tutorial.id = uuidv4());
-  return Tutorial;
+  Autor.beforeCreate(autor => autor.id = uuidv4());
+  return Autor;
 };

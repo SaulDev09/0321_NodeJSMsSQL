@@ -23,8 +23,9 @@ app.get("/", (req, res) => {
 });
 
 
-var tutorial_routes = require('./app/routes/turorial.routes');
-app.use('/api/tutorials', tutorial_routes);
+var autor_routes = require('./app/routes/autor.routes');
+
+app.use('/api/autor', autor_routes);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 3977;
