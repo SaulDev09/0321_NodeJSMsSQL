@@ -22,5 +22,6 @@ db.sequelize = sequelize;
 db.autor = require("./autor.model.js")(sequelize, Sequelize);
 db.libro = require("./libro.model.js")(sequelize, Sequelize);
 db.carrito = require("./carrito.model.js")(sequelize, Sequelize);
+db.carritodetalle = require("./carritodetalle.model.js")(sequelize, Sequelize);
 
 module.exports = db;
