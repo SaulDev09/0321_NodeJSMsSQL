@@ -1,49 +1,49 @@
 const { v4: uuidv4 } = require('uuid');
 const db = require("../models");
-const Autor = db.autor;
+const Libro = db.libro;
 const Op = db.Sequelize.Op;
 
 create = (req, res) => {
     // Validate request
-    if (!req.body.nombre) {
+    if (!req.body.titulo) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
         return;
     }
 
-    const autor = {
+    const libro = {
         id: uuidv4(),
-        nombre: req.body.nombre,
-        apellido: req.body.apellido,
-        fechaNacimiento: req.body.fechaNacimiento,
+        titulo: req.body.titulo,
+        fechaPublicacion: req.body.fechaPublicacion,
+        autorUuid: req.body.autorUuid,
         estado: req.body.estado
     };
 
-    Autor.create(autor)
+    Libro.create(libro)
         .then(data => {
             res.status(200).send(data);
         })
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Algún error ocurrió mientras se creaba el Autor."
+                    err.message || "Algún error ocurrió mientras se creaba el Libro."
             });
         });
 };
 
 findAll = (req, res) => {
-    const nombre = req.query.nombre;
-    var condition = nombre ? { nombre: { [Op.like]: `%${nombre}%` } } : null;
+    const titulo = req.query.titulo;
+    var condition = titulo ? { titulo: { [Op.like]: `%${titulo}%` } } : null;
 
-    Autor.findAll({ where: condition })
+    Libro.findAll({ where: condition })
         .then(data => {
             res.status(200).send(data);
         })
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Algún error ocurrió mientras se listaban los autores."
+                    err.message || "Algún error ocurrió mientras se listaban los libros."
             });
         });
 };
@@ -51,13 +51,13 @@ findAll = (req, res) => {
 findOne = (req, res) => {
     const id = req.params.id;
 
-    Autor.findByPk(id)
+    Libro.findByPk(id)
         .then(data => {
             res.status(200).send(data);
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error mientras se obtenía el Autor con id=" + id
+                message: "Error mientras se obtenía el Libro con id=" + id
             });
         });
 };
@@ -65,23 +65,23 @@ findOne = (req, res) => {
 update = (req, res) => {
     const id = req.params.id;
 
-    Autor.update(req.body, {
+    Libro.update(req.body, {
         where: { id: id }
     })
         .then(num => {
             if (num == 1) {
                 res.status(201).send({
-                    message: "Autor fue actualizado satisfactoriamente."
+                    message: "Libro fue actualizado satisfactoriamente."
                 });
             } else {
                 res.status(404).send({
-                    message: `No se puede actualizar el Autor con id=${id}.  Quizás el auto no fue encontrato o el req.body está vacío!`
+                    message: `No se puede actualizar el Libro con id=${id}.  Quizás el auto no fue encontrato o el req.body está vacío!`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error actualizando el Autor con id=" + id
+                message: "Error actualizando el Libro con id=" + id
             });
         });
 };
@@ -89,53 +89,53 @@ update = (req, res) => {
 eliminar = (req, res) => {
     const id = req.params.id;
 
-    Autor.destroy({
+    Libro.destroy({
         where: { id: id }
     })
         .then(num => {
             if (num == 1) {
                 res.status(204).send({
-                    message: "Autor fue eliminado exitosamente!"
+                    message: "Libro fue eliminado exitosamente!"
                 });
             } else {
                 res.send({
-                    message: `No se logró eliminar al Autor con id=${id}. Quizás el autor no fue encontrado!`
+                    message: `No se logró eliminar al Libro con id=${id}. Quizás el libro no fue encontrado!`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "No se logró eliminar al Autor con id=" + id
+                message: "No se logró eliminar al Libro con id=" + id
             });
         });
 };
 
 deleteAll = (req, res) => {
-    Autor.destroy({
+    Libro.destroy({
         where: {},
         truncate: false
     })
         .then(nums => {
-            res.send({ message: `${nums} Autores fue(ron) eliminado satisfactoriamente!` });
+            res.send({ message: `${nums} Libroes fue(ron) eliminado satisfactoriamente!` });
         })
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Algún error ocurrió mientras se eliminaban todos los autores."
+                    err.message || "Algún error ocurrió mientras se eliminaban todos los libros."
             });
         });
 };
 
-// find all published Autor
+// find all published Libro
 findAllActivo = (req, res) => {
-    Autor.findAll({ where: { estado: req.params.estado } })
+    Libro.findAll({ where: { estado: req.params.estado } })
         .then(data => {
             res.status(200).send(data);
         })
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Algún error ocurrió mientras se listaban los autores."
+                    err.message || "Algún error ocurrió mientras se listaban los libros."
             });
         });
 };

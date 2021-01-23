@@ -24,8 +24,10 @@ app.get("/", (req, res) => {
 
 
 var autor_routes = require('./app/routes/autor.routes');
+var libro_routes = require('./app/routes/libro.routes');
 
 app.use('/api/autor', autor_routes);
+app.use('/api/libro', libro_routes);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 3977;
