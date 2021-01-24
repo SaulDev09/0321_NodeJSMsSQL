@@ -33,6 +33,48 @@ create = (req, res) => {
         });
 };
 
+createList = async (lstCarritoDetalle, carritoId) => {
+    // Validate request
+    try {
+        for (let index = 0; index < lstCarritoDetalle.length; index++) {
+
+            if (!lstCarritoDetalle[index].libroId || !carritoId) {
+                // res.status(400).send({
+                //     message: "Content can not be empty!"
+                // });
+                console.log("Content can not be empty!");
+                return false;
+            }
+
+            const carritodetalle = {
+                id: uuidv4(),
+                fechaCreacion: lstCarritoDetalle[index].fechaCreacion,
+                libroId: lstCarritoDetalle[index].libroId,
+                estado: lstCarritoDetalle[index].estado,
+                carritoId: carritoId
+            };
+
+            var rpta = await CarritoDetalle.create(carritodetalle)
+                .then(data => {
+                    // res.status(200).send(data);
+                    // console.log('Registro número: ' + index, ' - Con datos: ', data);
+                })
+                .catch(err => {
+                    console.log(err);
+                    return false;
+                    // res.status(500).send({
+                    //     message:
+                    //         err.message || "Algún error ocurrió mientras se creaba el CarritoDetalle."
+                    // });
+                });
+        }
+        return true;
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
+};
+
 findAll = async (req, res) => {
     // const carritoDetalle = await CarritoDetalle.findAll({ include: Carrito });
     // console.log(JSON.stringify(carritoDetalle, null, 2));
@@ -146,6 +188,7 @@ findAllActivo = (req, res) => {
 
 module.exports = {
     create,
+    createList,
     findAll,
     findOne,
     update,

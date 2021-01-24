@@ -3,8 +3,9 @@ const db = require("../models");
 const Carrito = db.carrito;
 const CarritoDetalle = db.carritodetalle;
 const Op = db.Sequelize.Op;
+const { createList } = require("../controllers/carritodetalle.controller.js");
 
-create = (req, res) => {
+create = async (req, res) => {
     // Validate request
     if (!req.body.fechaCreacion) {
         res.status(400).send({
@@ -19,15 +20,30 @@ create = (req, res) => {
         estado: req.body.estado
     };
 
-    Carrito.create(carrito)
+    console.log('-> Registrando carrito');
+    await Carrito.create(carrito)
         .then(data => {
-            res.status(200).send(data);
+            // res.status(200).send(data);
         })
         .catch(err => {
             res.status(500).send({
                 message:
                     err.message || "Algún error ocurrió mientras se creaba el Carrito."
             });
+        });
+
+    console.log('-> Registrando carrito detalle');
+    let rptaCreateList = await createList(
+        req.body.carritoDetalle,
+        carrito.id
+    );
+
+    console.log('-> Registrando rpta: ', rptaCreateList);
+    if (rptaCreateList)
+        res.status(200).send('true');
+    else
+        res.status(500).send({
+            message: "Algún error ocurrió mientras se creaba el CarritoDetalle."
         });
 };
 
